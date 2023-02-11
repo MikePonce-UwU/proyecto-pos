@@ -1,0 +1,5 @@
+existe el rol,
+se le va a asignar varios o un solo permiso,
+consiste en que se seleccionan uno o varios permisos. entonces el usuario selecciona el rol, luego, le da al boton de sincronizar y entonces todos los selecionados van a meterse a un arreglo, y despues van hacia un objeto de rol nuevo y se van a sincronizar, o sea, se quitan todos los permisos que tenia antes y se van a reasignar los que se seleccionaron.
+luego, al seleccionar el rol, se van a meter todos los permisos que ya tiene para que los lea
+
