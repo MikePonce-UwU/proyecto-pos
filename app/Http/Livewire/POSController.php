@@ -17,7 +17,7 @@ class POSController extends Component
     // }
     public function render()
     {
-        return view('livewire.pos-controller', ['products' => Product::where('cantidad', '>', 1)->get()])->extends('layouts.app')->section('content');
+        return view('livewire.p-o-s-controller', ['products' => Product::where('cantidad', '>', 1)->get()])->extends('layouts.app')->section('content');
     }
 
     public function totalPagadoCordobas()
