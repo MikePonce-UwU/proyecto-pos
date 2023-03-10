@@ -48,8 +48,12 @@ class DatabaseSeeder extends Seeder
         $permission25 = Permission::create(['name' => 'request-store']);
         $permission26 = Permission::create(['name' => 'request-update']);
         $permission27 = Permission::create(['name' => 'request-destroy']);
+        $permission28 = Permission::create(['name' => 'user-index']);
+        $permission29 = Permission::create(['name' => 'user-store']);
+        $permission30 = Permission::create(['name' => 'user-update']);
+        $permission31 = Permission::create(['name' => 'user-destroy']);
         $role = Role::create(['name' => 'Admin']);
-        $role->syncPermissions([$permission1, $permission2, $permission3, $permission4, $permission5, $permission6, $permission7, $permission8, $permission9, $permission10, $permission11, $permission12, $permission13, $permission14, $permission15, $permission16, $permission17, $permission18, $permission19, $permission20, $permission21, $permission22, $permission23, $permission24, $permission25, $permission26, $permission27]);
+        $role->syncPermissions([$permission1, $permission2, $permission3, $permission4, $permission5, $permission6, $permission7, $permission8, $permission9, $permission10, $permission11, $permission12, $permission13, $permission14, $permission15, $permission16, $permission17, $permission18, $permission19, $permission20, $permission21, $permission22, $permission23, $permission24, $permission25, $permission26, $permission27, $permission28, $permission29, $permission30, $permission31]);
         $user = User::factory()->create([
             'name' => 'Mike POnce',
             'email' => 'mike@example.com',
