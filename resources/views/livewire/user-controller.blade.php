@@ -48,6 +48,9 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($usuarios as $usuario)
+                                        @if (auth()->id() == $usuario->id)
+                                            @continue
+                                        @endif
                                         <tr class="text-center">
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
@@ -112,8 +115,8 @@
         </div>
     </div>
     {{-- modal para añadir nuevo registro --}}
-    <div wire:ignore.self class="modal fade" id="addNewUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddNewUser"
-        aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="addNewUser" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="AddNewUser" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -158,8 +161,7 @@
                             <label for="role_id"
                                 class="col-md-4 col-form-label text-md-end">{{ __('Roles: ') }}</label>
                             <div class="col-md-6">
-                                <select name="role_id" id="role_id" wire:model="role"
-                                    class="form-select">
+                                <select name="role_id" id="role_id" wire:model="role" class="form-select">
                                     <option value="0">-- Elegir una opción --</option>
                                     @foreach ($roles as $name => $name)
                                         <option value="{{ $name }}">{{ $name }}</option>
@@ -221,8 +223,8 @@
         </div>
     </div>
     {{-- modal para editar un registro --}}
-    <div wire:ignore.self class="modal fade" id="editUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="EditUser"
-        aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="editUser" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="EditUser" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -267,8 +269,7 @@
                             <label for="role_id"
                                 class="col-md-4 col-form-label text-md-end">{{ __('Roles: ') }}</label>
                             <div class="col-md-6">
-                                <select name="role_id" id="role_id" wire:model="role"
-                                    class="form-select">
+                                <select name="role_id" id="role_id" wire:model="role" class="form-select">
                                     <option value="0">-- Elegir una opción --</option>
                                     @foreach ($roles as $name => $name)
                                         <option value="{{ $name }}">{{ $name }}</option>
@@ -330,8 +331,8 @@
         </div>
     </div>
     {{-- modal para ver un registro --}}
-    <div wire:ignore.self class="modal fade" id="viewUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ViewUser"
-        aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="viewUser" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="ViewUser" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -363,11 +364,9 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="role_id"
-                            class="col-md-4 col-form-label text-md-end">{{ __('Roles: ') }}</label>
+                        <label for="role_id" class="col-md-4 col-form-label text-md-end">{{ __('Roles: ') }}</label>
                         <div class="col-md-6">
-                            <select name="role_id" id="role_id" wire:model="role"
-                                class="form-select" disabled>
+                            <select name="role_id" id="role_id" wire:model="role" class="form-select" disabled>
                                 <option value="0">-- Elegir una opción --</option>
                                 @foreach ($roles as $name => $name)
                                     <option value="{{ $name }}">{{ $name }}</option>
@@ -387,8 +386,8 @@
         </div>
     </div>
     {{-- modal para borrar(softdeletes) un registro --}}
-    <div wire:ignore.self class="modal fade" id="destroyUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="DestroyUser"
-        aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="destroyUser" data-bs-backdrop="static" tabindex="-1"
+        aria-labelledby="DestroyUser" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
