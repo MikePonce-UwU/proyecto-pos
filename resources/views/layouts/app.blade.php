@@ -2,6 +2,10 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <meta name="description" content="App de bella sonrisa es un sistema de calificaciones, planilla, estudiantes, pagos y matricula.">
+    <meta name="keywords" content="MK Bella Sonrisa, Bella Sonrisa, Sistema web, estudiantes, planilla, matriculas">
+    <meta name="author" content="Mike Ponce" />
+    <meta name="copyright" content="Mike Ponce" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
