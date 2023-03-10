@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\CategoryController;
+use App\Http\Livewire\SaleController;
 use App\Http\Livewire\PermissionAssignController;
 use App\Http\Livewire\PermissionController;
+use App\Http\Livewire\POSController;
+use App\Http\Livewire\ProductController;
 use App\Http\Livewire\RoleController;
 use App\Http\Livewire\UserController;
 
@@ -34,4 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('permission_assign', PermissionAssignController::class)->name('permission_assign.index')->middleware('role:Admin');
 
     Route::get('categories', CategoryController::class)->name('categories.index');
+    Route::get('products', ProductController::class)->name('products.index');
+    Route::get('pos', POSController::class)->name('pos.index');
+    Route::get('orders', SaleController::class)->name('orders.index');
 });

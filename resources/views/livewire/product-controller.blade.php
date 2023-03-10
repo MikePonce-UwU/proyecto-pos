@@ -6,13 +6,13 @@
                     <div class="card-header">
                         <div class="row align-content-center">
                             <div class="col">
-                                {{ __('Listado de Usuarios') }}
+                                {{ __('Listado de Productos') }}
                             </div>
                             <div class="col-auto">
-                                @can('user-store')
+                                @can('product-store')
                                     <button class="btn btn-sm btn-secondary" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#addNewUser">
-                                        Añadir Usuario
+                                        data-bs-target="#addNewProduct">
+                                        Añadir Producto
                                     </button>
                                 @endcan
                             </div>
@@ -41,21 +41,23 @@
                             <table class="table table-sm table-bordered">
                                 <thead class="table-secondary">
                                     <tr class="text-center">
-                                        <th style="font:bold;">Usuario</th>
-                                        <th style="font:bold;">E-mail</th>
+                                        <th style="font:bold;">Producto</th>
+                                        <th style="font:bold;">Cantidad</th>
+                                        <th style="font:bold;">Precio</th>
                                         <th style="font:bold;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($usuarios as $usuario)
+                                    @forelse ($productos as $producto)
                                         <tr class="text-center">
-                                            <td>{{ $usuario->name }}</td>
-                                            <td>{{ $usuario->email }}</td>
+                                            <td>{{ $producto->nombre }}</td>
+                                            <td>{{ $producto->cantidad }}</td>
+                                            <td>C$  {{ number_format($producto->precio_sin_iva, 2) }}</td>
                                             <td>
                                                 <div class="btn-toolbar justify-content-center" role="toolbar">
                                                     <div class="btn-group" role="group">
                                                         <button class="btn btn-sm btn-outline-secondary" type="button"
-                                                            wire:click="showUserById({{ $usuario->id }})">
+                                                            wire:click="showProductById({{ $producto->id }})">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                 height="16" fill="currentColor" class="bi bi-eye"
                                                                 viewBox="0 0 16 16">
@@ -65,9 +67,9 @@
                                                                     d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                                                             </svg>
                                                         </button>
-                                                        @can('user-update')
+                                                        @can('product-update')
                                                             <button type="button" class="btn btn-sm btn-outline-secondary"
-                                                                wire:click="editUserById({{ $usuario->id }})">
+                                                                wire:click="editProductById({{ $producto->id }})">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                     height="16" fill="currentColor"
                                                                     class="bi bi-clipboard" viewBox="0 0 16 16">
@@ -78,9 +80,9 @@
                                                                 </svg>
                                                             </button>
                                                         @endcan
-                                                        @can('user-destroy')
+                                                        @can('product-destroy')
                                                             <button class="btn btn-sm btn-outline-secondary" type="button"
-                                                                wire:click="deleteUserById({{ $usuario->id }})">
+                                                                wire:click="deleteProductById({{ $producto->id }})">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                     height="16" fill="currentColor" class="bi bi-trash"
                                                                     viewBox="0 0 16 16">
@@ -98,13 +100,13 @@
 
                                     @empty
                                         <tr class="text-center">
-                                            <td colspan="2" style="font-style:italic;">No se encontraron datos en los
+                                            <td colspan="4" style="font-style:italic;">No se encontraron datos en los
                                                 registros...</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
-                            {{ $usuarios->links('pagination::bootstrap-5') }}
+                            {{ $productos->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                 </div>
@@ -112,26 +114,26 @@
         </div>
     </div>
     {{-- modal para añadir nuevo registro --}}
-    <div wire:ignore.self class="modal fade" id="addNewUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddNewUser"
+    <div wire:ignore.self class="modal fade" id="addNewProduct" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddNewProduct"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Usuario</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Ítem</h1>
                     {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> pa luego xd --}}
                 </div>
                 <div class="modal-body">
                     <form wire:submit.prevent="onFormSubmit">
                         <div class="row mb-3">
-                            <label for="name"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Nombre') }}</label>
+                            <label for="nombre"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Nombre:') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text"
-                                    class="form-control @error('name') is-invalid @enderror" name="name"
-                                    value="{{ old('name') }}" required autofocus wire:model="name">
+                                <input id="nombre" type="text"
+                                    class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                                    value="{{ old('nombre') }}" required autofocus wire:model="nombre">
 
-                                @error('name')
+                                @error('nombre')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -139,64 +141,80 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="email"
-                                class="col-md-4 col-form-label text-md-end">{{ __('E-mail') }}</label>
+                            <label for="descripcion"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Descripción:') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email"
-                                    class="form-control @error('email') is-invalid @enderror" name="email"
-                                    value="{{ old('email') }}" required wire:model="email">
-                                {{-- <textarea class="form-control" id="email" cols="30" rows="10" wire:model="email">{{ old('email') }}</textarea> --}}
-                                @error('email')
+                                {{-- <input id="descripcion" type="number"
+                                    class="form-control @error('descripcion') is-invalid @enderror" name="descripcion"
+                                    value="{{ old('descripcion') }}" required wire:model="descripcion"> --}}
+                                <textarea class="form-control" id="descripcion" cols="30" rows="10" wire:model="descripcion">{{ old('descripcion') }}</textarea>
+                                @error('descripcion')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <label for="role_id"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Roles: ') }}</label>
+                        <div class="row mb-3">
+                            <label for="cantidad"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Cantidad:') }}</label>
+
                             <div class="col-md-6">
-                                <select name="role_id" id="role_id" wire:model="role"
+                                <input id="cantidad" type="number"
+                                    class="form-control @error('cantidad') is-invalid @enderror" name="cantidad"
+                                    value="{{ old('cantidad') }}" required wire:model="cantidad">
+                                {{-- <textarea class="form-control" id="cantidad" cols="30" rows="10" wire:model="cantidad">{{ old('cantidad') }}</textarea> --}}
+                                @error('cantidad')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="precio_anterior"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Precio neto: ') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="precio_anterior" type="number"
+                                    class="form-control @error('precio_anterior') is-invalid @enderror" name="precio_anterior"
+                                    value="{{ old('precio_anterior') }}" required wire:model="precio_anterior">
+                                {{-- <textarea class="form-control" id="precio_anterior" cols="30" rows="10" wire:model="precio_anterior">{{ old('precio_anterior') }}</textarea> --}}
+                                @error('precio_anterior')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="precio_sin_iva"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Precio sin IVA: ') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="precio_sin_iva" type="number"
+                                    class="form-control @error('precio_sin_iva') is-invalid @enderror" name="precio_sin_iva"
+                                    value="{{ old('precio_sin_iva') }}" wire:model="precio_sin_iva" disabled>
+                                {{-- <textarea class="form-control" id="precio_sin_iva" cols="30" rows="10" wire:model="precio_sin_iva">{{ old('precio_sin_iva') }}</textarea> --}}
+                                @error('precio_sin_iva')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="category_id"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Categoría: ') }}</label>
+                            <div class="col-md-6">
+                                <select name="category_id" id="category_id" wire:model="category_id"
                                     class="form-select">
                                     <option value="0">-- Elegir una opción --</option>
-                                    @foreach ($roles as $name => $name)
-                                        <option value="{{ $name }}">{{ $name }}</option>
+                                    @foreach ($categorias as $id => $name)
+                                        <option value="{{ $id }}">{{ $name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="password"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password"
-                                    value="{{ old('password') }}" required wire:model="password">
-                                {{-- <textarea class="form-control" id="password" cols="30" rows="10" wire:model="password">{{ old('password') }}</textarea> --}}
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="password_confirmation"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Confirmar contraseña') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password_confirmation" type="password"
-                                    class="form-control @error('password_confirmation') is-invalid @enderror"
-                                    name="password_confirmation" value="{{ old('password_confirmation') }}" required
-                                    wire:model="password_confirmation">
-                                @error('password_confirmation')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                         <div class="row mb-0">
@@ -221,7 +239,7 @@
         </div>
     </div>
     {{-- modal para editar un registro --}}
-    <div wire:ignore.self class="modal fade" id="editUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="EditUser"
+    <div wire:ignore.self class="modal fade" id="editProduct" data-bs-backdrop="static" tabindex="-1" aria-labelledby="EditProduct"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -232,15 +250,15 @@
                 <div class="modal-body">
                     <form wire:submit.prevent="onUpdateSubmit">
                         <div class="row mb-3">
-                            <label for="name"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Nombre') }}</label>
+                            <label for="nombre"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Nombre:') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text"
-                                    class="form-control @error('name') is-invalid @enderror" name="name"
-                                    value="{{ old('name') }}" required wire:model="name">
+                                <input id="nombre" type="text"
+                                    class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                                    value="{{ old('nombre') }}" required autofocus wire:model="nombre">
 
-                                @error('name')
+                                @error('nombre')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -248,15 +266,15 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="email"
-                                class="col-md-4 col-form-label text-md-end">{{ __('E-mail') }}</label>
+                            <label for="descripcion"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Descripción:') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email"
-                                    class="form-control @error('email') is-invalid @enderror" name="email"
-                                    value="{{ old('email') }}" required wire:model="email">
-                                {{-- <textarea class="form-control" id="email" cols="30" rows="10" wire:model="email">{{ old('email') }}</textarea> --}}
-                                @error('email')
+                                {{-- <input id="descripcion" type="number"
+                                    class="form-control @error('descripcion') is-invalid @enderror" name="descripcion"
+                                    value="{{ old('descripcion') }}" required wire:model="descripcion"> --}}
+                                <textarea class="form-control" id="descripcion" cols="30" rows="10" wire:model="descripcion">{{ old('descripcion') }}</textarea>
+                                @error('descripcion')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -264,48 +282,64 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="role_id"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Roles: ') }}</label>
+                            <label for="cantidad"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Cantidad:') }}</label>
+
                             <div class="col-md-6">
-                                <select name="role_id" id="role_id" wire:model="role"
+                                <input id="cantidad" type="number"
+                                    class="form-control @error('cantidad') is-invalid @enderror" name="cantidad"
+                                    value="{{ old('cantidad') }}" required wire:model="cantidad">
+                                {{-- <textarea class="form-control" id="cantidad" cols="30" rows="10" wire:model="cantidad">{{ old('cantidad') }}</textarea> --}}
+                                @error('cantidad')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="precio_anterior"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Precio Neto:') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="precio_anterior" type="number"
+                                    class="form-control @error('precio_anterior') is-invalid @enderror" name="precio_anterior"
+                                    value="{{ old('precio_anterior') }}" required wire:model="precio_anterior">
+                                {{-- <textarea class="form-control" id="precio_anterior" cols="30" rows="10" wire:model="precio_anterior">{{ old('precio_anterior') }}</textarea> --}}
+                                @error('precio_anterior')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="precio_sin_iva"
+                                class="col-md-4 col-form-label text-md-end">{{ __('precio sin IVA') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="precio_sin_iva" type="number"
+                                    class="form-control @error('precio_sin_iva') is-invalid @enderror" name="precio_sin_iva"
+                                    value="{{ old('precio_sin_iva') }}" required wire:model="precio_sin_iva" disabled>
+                                {{-- <textarea class="form-control" id="precio_sin_iva" cols="30" rows="10" wire:model="precio_sin_iva">{{ old('precio_sin_iva') }}</textarea> --}}
+                                @error('precio_sin_iva')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="category_id"
+                                class="col-md-4 col-form-label text-md-end">{{ __('Categoría: ') }}</label>
+                            <div class="col-md-6">
+                                <select name="category_id" id="category_id" wire:model="category_id"
                                     class="form-select">
                                     <option value="0">-- Elegir una opción --</option>
-                                    @foreach ($roles as $name => $name)
-                                        <option value="{{ $name }}">{{ $name }}</option>
+                                    @foreach ($categorias as $id => $name)
+                                        <option value="{{ $id }}">{{ $name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="password"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password"
-                                    value="{{ old('password') }}" wire:model="password">
-                                {{-- <textarea class="form-control" id="password" cols="30" rows="10" wire:model="password">{{ old('password') }}</textarea> --}}
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="password_confirmation"
-                                class="col-md-4 col-form-label text-md-end">{{ __('Confirmar contraseña') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password_confirmation" type="password"
-                                    class="form-control @error('password_confirmation') is-invalid @enderror"
-                                    name="password_confirmation" value="{{ old('password_confirmation') }}"
-                                    wire:model="password_confirmation">
-                                @error('password_confirmation')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                         <div class="row mb-0">
@@ -330,47 +364,67 @@
         </div>
     </div>
     {{-- modal para ver un registro --}}
-    <div wire:ignore.self class="modal fade" id="viewUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ViewUser"
+    <div wire:ignore.self class="modal fade" id="viewProduct" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ViewProduct"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ver Usuario</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ver Ítem</h1>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
-                        <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nombre') }}</label>
+                        <label for="nombre"
+                            class="col-md-4 col-form-label text-md-end">{{ __('Nombre: ') }}</label>
 
                         <div class="col-md-6">
-                            <input id="name" type="text" class="form-control" name="name" disabled
-                                value="{{ $this->name }}">
-
+                            <input id="nombre" type="text"
+                                class="form-control" name="nombre" disabled wire:model="nombre">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
+                        <label for="descripcion"
+                            class="col-md-4 col-form-label text-md-end">{{ __('Descripción: ') }}</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email"
-                                class="form-control @error('email') is-invalid @enderror" name="email"
-                                value="{{ $this->email }}" disabled>
-                            {{-- <textarea class="form-control" id="email" cols="30" rows="10" wire:model="email">{{ old('email') }}</textarea> --}}
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <textarea class="form-control" id="descripcion" cols="30" rows="10" wire:model="descripcion" disabled></textarea>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="role_id"
-                            class="col-md-4 col-form-label text-md-end">{{ __('Roles: ') }}</label>
+                        <label for="cantidad"
+                            class="col-md-4 col-form-label text-md-end">{{ __('Cantidad: ') }}</label>
+
                         <div class="col-md-6">
-                            <select name="role_id" id="role_id" wire:model="role"
+                            <input id="cantidad" type="number"
+                                class="form-control" name="cantidad" disabled wire:model="cantidad">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="precio_anterior"
+                            class="col-md-4 col-form-label text-md-end">{{ __('Precio Neto: ') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="precio_anterior" type="number"
+                                class="form-control" name="precio_anterior" disabled wire:model="precio_anterior">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="precio_sin_iva"
+                            class="col-md-4 col-form-label text-md-end">{{ __('Precio sin IVA:') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="precio_sin_iva" type="number"
+                                class="form-control" name="precio_sin_iva" disabled wire:model="precio_sin_iva">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="category_id"
+                            class="col-md-4 col-form-label text-md-end">{{ __('Categoría: ') }}</label>
+                        <div class="col-md-6">
+                            <select name="category_id" id="category_id" wire:model="category_id"
                                 class="form-select" disabled>
                                 <option value="0">-- Elegir una opción --</option>
-                                @foreach ($roles as $name => $name)
-                                    <option value="{{ $name }}">{{ $name }}</option>
+                                @foreach ($categorias as $id => $name)
+                                    <option value="{{ $id }}">{{ $name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -387,12 +441,12 @@
         </div>
     </div>
     {{-- modal para borrar(softdeletes) un registro --}}
-    <div wire:ignore.self class="modal fade" id="destroyUser" data-bs-backdrop="static" tabindex="-1" aria-labelledby="DestroyUser"
+    <div wire:ignore.self class="modal fade" id="destroyProduct" data-bs-backdrop="static" tabindex="-1" aria-labelledby="DestroyProduct"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Usuario</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Ítem</h1>
                     {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> pa luego xd --}}
                 </div>
                 <div class="modal-body">
@@ -414,21 +468,19 @@
 @push('scripts')
     <script>
         window.addEventListener('closeModal', event => {
-            // document.getElementById('addNewUser').hide();
-            // document.getElementById('editUser').hide();
-            $('#viewUser').modal('hide');
-            $('#addNewUser').modal('hide');
-            $('#editUser').modal('hide');
-            $('#destroyUser').modal('hide');
+            $('#viewProduct').modal('hide');
+            $('#addNewProduct').modal('hide');
+            $('#editProduct').modal('hide');
+            $('#destroyProduct').modal('hide');
         });
         window.addEventListener('openEditModal', event => {
-            $("#editUser").modal('show');
+            $("#editProduct").modal('show');
         })
-        window.addEventListener('DestroyUserModal', event => {
-            $("#destroyUser").modal('show');
+        window.addEventListener('DestroyProductModal', event => {
+            $("#destroyProduct").modal('show');
         })
-        window.addEventListener('showUserModal', event => {
-            $("#viewUser").modal('show');
+        window.addEventListener('showProductModal', event => {
+            $("#viewProduct").modal('show');
         })
     </script>
 @endpush

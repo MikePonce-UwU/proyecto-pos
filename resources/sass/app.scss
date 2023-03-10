@@ -1,8 +1,10 @@
 // Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+// @import url('https://fonts.bunny.net/css?family=Nunito');
+@import url('https://fonts.bunny.net/css?family=questrial');
 
 // Variables
-@import 'variables';
+$font-family-sans-serif: 'Questrial', sans-serif;
+@import "bootswatch/dist/quartz/_variables.scss";
+@import "bootstrap/scss/bootstrap.scss";
+@import "bootswatch/dist/quartz/_bootswatch.scss";
 
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';

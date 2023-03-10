@@ -137,7 +137,7 @@
         </div>
     </div>
     {{-- modal para añadir nuevo registro --}}
-    <div wire:ignore.self class="modal fade" id="addNewRole" tabindex="-1" aria-labelledby="AddNewRole"
+    <div wire:ignore.self class="modal fade" id="addNewRole" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddNewRole"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -198,7 +198,7 @@
         </div>
     </div>
     {{-- modal para editar un registro --}}
-    <div wire:ignore.self class="modal fade" id="editRole" tabindex="-1" aria-labelledby="EditRole"
+    <div wire:ignore.self class="modal fade" id="editRole" data-bs-backdrop="static" tabindex="-1" aria-labelledby="EditRole"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -259,7 +259,7 @@
         </div>
     </div>
     {{-- modal para ver un registro --}}
-    <div wire:ignore.self class="modal fade" id="viewRole" tabindex="-1" aria-labelledby="ViewRole"
+    <div wire:ignore.self class="modal fade" id="viewRole" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ViewRole"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -296,7 +296,7 @@
         </div>
     </div>
     {{-- modal para borrar(softdeletes) un registro --}}
-    <div wire:ignore.self class="modal fade" id="destroyRole" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="destroyRole" data-bs-backdrop="static" tabindex="-1"
         aria-labelledby="DestroyRole" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

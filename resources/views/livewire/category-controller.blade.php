@@ -137,7 +137,7 @@
         </div>
     </div>
     {{-- modal para añadir nuevo registro --}}
-    <div wire:ignore.self class="modal fade" id="addNewCategory" tabindex="-1" aria-labelledby="AddNewCategory"
+    <div wire:ignore.self class="modal fade" id="addNewCategory" data-bs-backdrop="static" tabindex="-1" aria-labelledby="AddNewCategory"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -201,7 +201,7 @@
         </div>
     </div>
     {{-- modal para editar un registro --}}
-    <div wire:ignore.self class="modal fade" id="editCategory" tabindex="-1" aria-labelledby="EditCategory"
+    <div wire:ignore.self class="modal fade" id="editCategory" data-bs-backdrop="static" tabindex="-1" aria-labelledby="EditCategory"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -265,7 +265,7 @@
         </div>
     </div>
     {{-- modal para ver un registro --}}
-    <div wire:ignore.self class="modal fade" id="viewCategory" tabindex="-1" aria-labelledby="ViewCategory"
+    <div wire:ignore.self class="modal fade" id="viewCategory" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ViewCategory"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -302,7 +302,7 @@
         </div>
     </div>
     {{-- modal para borrar(softdeletes) un registro --}}
-    <div wire:ignore.self class="modal fade" id="destroyCategory" tabindex="-1" aria-labelledby="DestroyCategory"
+    <div wire:ignore.self class="modal fade" id="destroyCategory" data-bs-backdrop="static" tabindex="-1" aria-labelledby="DestroyCategory"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -137,7 +137,7 @@
         </div>
     </div>
     {{-- modal para añadir nuevo registro --}}
-    <div wire:ignore.self class="modal fade" id="addNewPermission" tabindex="-1" aria-labelledby="AddNewPermission"
+    <div wire:ignore.self class="modal fade" id="addNewPermission" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AddNewPermission"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -198,7 +198,7 @@
         </div>
     </div>
     {{-- modal para editar un registro --}}
-    <div wire:ignore.self class="modal fade" id="editPermission" tabindex="-1" aria-labelledby="EditPermission"
+    <div wire:ignore.self class="modal fade" id="editPermission" tabindex="-1" data-bs-backdrop="static" aria-labelledby="EditPermission"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -259,7 +259,7 @@
         </div>
     </div>
     {{-- modal para ver un registro --}}
-    <div wire:ignore.self class="modal fade" id="viewPermission" tabindex="-1" aria-labelledby="ViewPermission"
+    <div wire:ignore.self class="modal fade" id="viewPermission" data-bs-backdrop="static" tabindex="-1" aria-labelledby="ViewPermission"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -296,7 +296,7 @@
         </div>
     </div>
     {{-- modal para borrar(softdeletes) un registro --}}
-    <div wire:ignore.self class="modal fade" id="destroyPermission" tabindex="-1"
+    <div wire:ignore.self class="modal fade" id="destroyPermission" data-bs-backdrop="static" tabindex="-1"
         aria-labelledby="DestroyPermission" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

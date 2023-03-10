@@ -12,11 +12,8 @@ class PermissionController extends Component
     use WithPagination;
 
     public $updating_id, $destroying_id, $viewing_id;
-    public $search;
     public $name;
 
-
-    protected $queryString = ['search'];
     protected $paginationTheme = 'bootstrap';
 
     public function updatingSearch()
@@ -25,13 +22,8 @@ class PermissionController extends Component
     }
     public function render()
     {
-        $permisos = QueryBuilder::for(Permission::where('name', 'like', '%' . $this->search . '%'))
-            ->allowedSorts(['name'])
-             ->defaultSort('name')
-            ->paginate(5)
-            ->appends(request()->query());
         return view('livewire.permission-controller', [
-            'permisos' => $permisos
+            'permisos' => Permission::paginate(5)
         ])->extends('layouts.app')->section('content');
     }
     public function updated($field)

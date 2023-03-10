@@ -3,9 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Component
@@ -13,10 +15,8 @@ class UserController extends Component
     use WithPagination;
 
     public $updating_id, $destroying_id, $viewing_id;
-    public $search, $filter, $page = 1;
     public $name, $email, $password, $password_confirmation, $role;
 
-    protected $queryString = ['search', 'filter', 'page'];
     protected $paginationTheme = 'bootstrap';
 
     public function updatingSearch()
@@ -25,13 +25,8 @@ class UserController extends Component
     }
     public function render()
     {
-        $users = QueryBuilder::for(User::where('name', 'like', '%' . $this->search . '%'))
-            ->allowedSorts(['name'])
-            ->defaultSort('name')
-            ->paginate(5)
-            ->appends(request()->query());
         return view('livewire.user-controller', [
-            'usuarios' => $users,
+            'usuarios' => User::paginate(5),
             'roles' => Role::all()->pluck(value: 'name', key: 'name')
         ])->extends('layouts.app')->section('content');
     }
